@@ -1,0 +1,86 @@
+Random Forest:
+| Output Variable   | Best parameters                      |   Best score |   Test set score |     MAE |         MSE |   R2 score |
+|:------------------|:-------------------------------------|-------------:|-----------------:|--------:|------------:|-----------:|
+|                   | {'max_depth': 7, 'n_estimators': 50} |     -2.12715 |         0.888999 | 859.791 | 2.39267e+06 |   0.888999 |
+SVR:
+| Output Variable   | Best parameters              |   Best score |   Test set score |     MAE |         MSE |   R2 score |
+|:------------------|:-----------------------------|-------------:|-----------------:|--------:|------------:|-----------:|
+| Variable 1        | {'C': 10, 'gamma': 'scale'}  |     -4.48512 |        -0.232892 | 2284.62 | 2.01735e+07 |  -0.232892 |
+| Variable 2        | {'C': 0.1, 'gamma': 'scale'} |     -4.19461 |        -0.232892 | 2284.62 | 2.01735e+07 |  -0.232892 |
+| Variable 3        | {'C': 1, 'gamma': 'scale'}   |     -1.20081 |        -0.232892 | 2284.62 | 2.01735e+07 |  -0.232892 |
+KNN:
+| Output Variable   | Best parameters    |   Best score |   Test set score |     MAE |         MSE |   R2 score |
+|:------------------|:-------------------|-------------:|-----------------:|--------:|------------:|-----------:|
+| Variable 1        | {'n_neighbors': 3} |    -0.475127 |        -0.247249 | 828.273 | 3.37358e+06 |  -0.247249 |
+| Variable 2        | {'n_neighbors': 5} |   -10.1847   |        -0.247249 | 828.273 | 3.37358e+06 |  -0.247249 |
+| Variable 3        | {'n_neighbors': 7} |    -1.00098  |        -0.247249 | 828.273 | 3.37358e+06 |  -0.247249 |
+Gaussian Process after Normalisation:
+| Output Variable   | Best parameters   |   Best score |   Test set score |       MAE |        MSE |   R2 score |
+|:------------------|:------------------|-------------:|-----------------:|----------:|-----------:|-----------:|
+| Variable 1        | {}                |  -45868      |         0.913718 | 0.0443258 | 0.00500773 |   0.913718 |
+| Variable 2        | {}                |    -108.153  |         0.913718 | 0.0443258 | 0.00500773 |   0.913718 |
+| Variable 3        | {}                |     -24.8662 |         0.913718 | 0.0443258 | 0.00500773 |   0.913718 |
+DecisionTreeRegressor after Normalisation:
+| Output Variable   | Best parameters   |   Best score |   Test set score |       MAE |       MSE |   R2 score |
+|:------------------|:------------------|-------------:|-----------------:|----------:|----------:|-----------:|
+| Variable 1        | {'max_depth': 10} |    0.0886621 |         0.469005 | 0.0927538 | 0.0205394 |   0.469005 |
+| Variable 2        | {'max_depth': 3}  |   -9.81111   |         0.469005 | 0.0927538 | 0.0205394 |   0.469005 |
+| Variable 3        | {'max_depth': 10} |   -0.782815  |         0.469005 | 0.0927538 | 0.0205394 |   0.469005 |
+Random Forest after Bayesian optimization:
+| Output Variable   | Best parameters                                       |   Best score |   Test set score |     MAE |         MSE |   R2 score |
+|:------------------|:------------------------------------------------------|-------------:|-----------------:|--------:|------------:|-----------:|
+|                   | OrderedDict([('max_depth', 9), ('n_estimators', 29)]) |     -1.68989 |         0.924433 | 903.678 | 2.63015e+06 |   0.924433 |
+SVR after Bayesian optimization:
+| Output Variable   | Best parameters                                              |   Best score |   Test set score |     MAE |         MSE |   R2 score |
+|:------------------|:-------------------------------------------------------------|-------------:|-----------------:|--------:|------------:|-----------:|
+| Variable 1        | OrderedDict([('C', 20.0), ('gamma', 'scale')])               |     -4.48139 |        -0.250338 | 2283.01 | 2.01384e+07 |  -0.250338 |
+| Variable 2        | OrderedDict([('C', 0.1), ('gamma', 'scale')])                |     -4.19461 |        -0.250338 | 2283.01 | 2.01384e+07 |  -0.250338 |
+| Variable 3        | OrderedDict([('C', 2.9593292942246507), ('gamma', 'scale')]) |     -1.11013 |        -0.250338 | 2283.01 | 2.01384e+07 |  -0.250338 |
+KNN after Bayesian optimization:
+| Output Variable   | Best parameters                   |   Best score |   Test set score |     MAE |         MSE |   R2 score |
+|:------------------|:----------------------------------|-------------:|-----------------:|--------:|------------:|-----------:|
+| Variable 1        | OrderedDict([('n_neighbors', 1)]) |    0.0704001 |         0.435227 | 953.619 | 3.32649e+06 |   0.435227 |
+| Variable 2        | OrderedDict([('n_neighbors', 4)]) |   -9.06998   |         0.435227 | 953.619 | 3.32649e+06 |   0.435227 |
+| Variable 3        | OrderedDict([('n_neighbors', 4)]) |   -0.540651  |         0.435227 | 953.619 | 3.32649e+06 |   0.435227 |
+Random Forest after Normalisation:
+| Output Variable   | Best parameters                      |   Best score |   Test set score |       MAE |        MSE |   R2 score |
+|:------------------|:-------------------------------------|-------------:|-----------------:|----------:|-----------:|-----------:|
+|                   | {'max_depth': 9, 'n_estimators': 10} |     -2.25422 |         0.935803 | 0.0487012 | 0.00347749 |   0.935803 |
+SVR after Normalisation:
+| Output Variable   | Best parameters            |   Best score |   Test set score |      MAE |       MSE |   R2 score |
+|:------------------|:---------------------------|-------------:|-----------------:|---------:|----------:|-----------:|
+| Variable 1        | {'C': 10, 'gamma': 'auto'} |    0.0421704 |         0.332375 | 0.125468 | 0.0338939 |   0.332375 |
+| Variable 2        | {'C': 1, 'gamma': 'auto'}  |  -48.2669    |         0.332375 | 0.125468 | 0.0338939 |   0.332375 |
+| Variable 3        | {'C': 1, 'gamma': 'auto'}  |   -0.864224  |         0.332375 | 0.125468 | 0.0338939 |   0.332375 |
+KNN after Normalisation:
+| Output Variable   | Best parameters    |   Best score |   Test set score |     MAE |       MSE |   R2 score |
+|:------------------|:-------------------|-------------:|-----------------:|--------:|----------:|-----------:|
+| Variable 1        | {'n_neighbors': 3} |    -0.326552 |         0.747149 | 0.06797 | 0.0102951 |   0.747149 |
+| Variable 2        | {'n_neighbors': 5} |    -3.72655  |         0.747149 | 0.06797 | 0.0102951 |   0.747149 |
+| Variable 3        | {'n_neighbors': 3} |    -0.962107 |         0.747149 | 0.06797 | 0.0102951 |   0.747149 |
+Random Forest after Bayesian optimization and scaler:
+| Output Variable   | Best parameters                                       |   Best score |   Test set score |       MAE |        MSE |   R2 score |
+|:------------------|:------------------------------------------------------|-------------:|-----------------:|----------:|-----------:|-----------:|
+|                   | OrderedDict([('max_depth', 9), ('n_estimators', 31)]) |     -1.64977 |         0.946506 | 0.0423773 | 0.00281826 |   0.946506 |
+SVR after Bayesian optimization and scaler:
+| Output Variable   | Best parameters                                             |   Best score |   Test set score |      MAE |       MSE |   R2 score |
+|:------------------|:------------------------------------------------------------|-------------:|-----------------:|---------:|----------:|-----------:|
+| Variable 1        | OrderedDict([('C', 17.227511487712576), ('gamma', 'auto')]) |    0.0526486 |         0.509155 | 0.103844 | 0.0220968 |   0.509155 |
+| Variable 2        | OrderedDict([('C', 6.540450804563536), ('gamma', 'auto')])  |  -25.3358    |         0.509155 | 0.103844 | 0.0220968 |   0.509155 |
+| Variable 3        | OrderedDict([('C', 18.971371398272147), ('gamma', 'auto')]) |   -1.06828   |         0.509155 | 0.103844 | 0.0220968 |   0.509155 |
+KNN after Bayesian optimization and scaler:
+| Output Variable   | Best parameters                   |   Best score |   Test set score |       MAE |       MSE |   R2 score |
+|:------------------|:----------------------------------|-------------:|-----------------:|----------:|----------:|-----------:|
+| Variable 1        | OrderedDict([('n_neighbors', 1)]) |    0.0783256 |         0.757752 | 0.0852625 | 0.0137295 |   0.757752 |
+| Variable 2        | OrderedDict([('n_neighbors', 4)]) |   -5.38315   |         0.757752 | 0.0852625 | 0.0137295 |   0.757752 |
+| Variable 3        | OrderedDict([('n_neighbors', 4)]) |   -0.59701   |         0.757752 | 0.0852625 | 0.0137295 |   0.757752 |
+
+
+Ensemble model results:
+Mean Absolute Error: 0.04408647175315911
+Mean Squared Error: 0.0029715494300234842
+R2 score: 0.9480212974210452
+Ensemble model results:
+Mean Absolute Error: 0.042445570193808214
+Mean Squared Error: 0.0029363423877341297
+R2 score: 0.95101701823359
