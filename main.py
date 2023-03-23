@@ -305,21 +305,17 @@ for i in range(num_output_variables):
     ensemble_model.fit(X_train, y_train[:, i])
     stacking_ensemble_models.append(ensemble_model)
 
-# 为每个输出变量进行预测
 y_pred_normalized = np.zeros_like(y_test)
 
 for i, model in enumerate(stacking_ensemble_models):
     y_pred_normalized[:, i] = model.predict(X_test)
 
-# # 将预测结果反归一化
-# y_pred = scaler_y.inverse_transform(y_pred_normalized)
 
-# 计算评估指标
 mae = mean_absolute_error(y_test, y_pred_normalized)
 mse = mean_squared_error(y_test, y_pred_normalized)
 r2 = r2_score(y_test, y_pred_normalized)
 
-# 打印评估指标
+
 print("Ensemble model results:")
 print(f"Mean Absolute Error: {mae}")
 print(f"Mean Squared Error: {mse}")
