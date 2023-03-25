@@ -43,99 +43,6 @@ y = df.iloc[:, 3:6].to_numpy()
 # Divided into training set and test set
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-def model_evaluation(model, params, multi_output=True):
-    gs = GridSearchCV(model, params, cv=10)
-    if multi_output:
-        chain = RegressorChain(gs)
-        chain.fit(X_train, y_train)
-        y_pred = chain.predict(X_test)
-        test_score = chain.score(X_test, y_test)
-        output_variables = [f'Variable {i+1}' for i in range(y.shape[1])]
-        best_params = [chain.estimators_[i].best_params_ for i in range(y.shape[1])]
-        best_scores = [chain.estimators_[i].best_score_ for i in range(y.shape[1])]
-    else:
-        gs.fit(X_train, y_train)
-        y_pred = gs.predict(X_test)
-        test_score = gs.score(X_test, y_test)
-        output_variables = ['']
-        best_params = [gs.best_params_]
-        best_scores = [gs.best_score_]
-
-    results = pd.DataFrame({
-        'Output Variable': output_variables,
-        'Best parameters': best_params,
-        'Best score': best_scores,
-        'Test set score': [test_score] * len(output_variables),
-        'MAE': [mean_absolute_error(y_test, y_pred)] * len(output_variables),
-        'MSE': [mean_squared_error(y_test, y_pred)] * len(output_variables),
-        'R2 score': [r2_score(y_test, y_pred)] * len(output_variables)
-    })
-
-    return results
-
-
-# Define the regression models to be trained
-models = [
-    LinearRegression(),
-    Ridge(),
-    Lasso(),
-    ElasticNet(),
-    DecisionTreeRegressor(),
-    RandomForestRegressor(),
-    GradientBoostingRegressor(),
-    AdaBoostRegressor(),
-    MLPRegressor(max_iter=1000),
-    SVR(),
-    KNeighborsRegressor(),
-    GaussianProcessRegressor(),
-    DecisionTreeRegressor(),
-    LassoCV(),
-]
-
-# Define the hyperparameters to be tuned for each model
-params = [
-    {},
-    {'alpha': [0.1, 1, 10]},
-    {'alpha': [0.1, 1, 10]},
-    {'alpha': [0.1, 1, 10], 'l1_ratio': [0.1, 0.5, 0.9]},
-    {'max_depth': [3, 5, 10]},
-    {'n_estimators': [50, 100, 200]},
-    {'learning_rate': [0.01, 0.1, 1], 'n_estimators': [50, 100, 200]},
-    {'learning_rate': [0.01, 0.1, 1], 'n_estimators': [50, 100, 200]},
-    {'hidden_layer_sizes': [(10,), (50,), (100,)]},
-    {'C': [0.1, 1, 10], 'kernel': ['linear', 'rbf']},
-    {'n_neighbors': [3, 5, 10]},
-    {},
-    {'max_depth': [3, 5, 10]},
-    {'eps': [0.001, 0.01, 0.1]},
-]
-model_names = [
-    'LinearRegression()',
-    'Ridge()',
-    'Lasso()',
-    'ElasticNet()',
-    'DecisionTreeRegressor()',
-    'RandomForestRegressor()',
-    'GradientBoostingRegressor()',
-    'AdaBoostRegressor()',
-    'MLPRegressor(max_iter=1000)',
-    'SVR()',
-    'KNeighborsRegressor()',
-    'GaussianProcessRegressor()',
-    'DecisionTreeRegressor()',
-    'LassoCV()'
-    ]
-
-# Train and evaluate each model
-results = []
-for i, model in enumerate(models):
-    print(f"Training {model_names[i]} ({i + 1}/{len(models)})...")
-    results.append(model_evaluation(model, params[i], multi_output=True))
-
-# Concatenate the results of all models into a single DataFrame
-all_results = pd.concat(results, ignore_index=True)
-print(all_results)
-
 
 # Random forest regression model
 rf_reg = RandomForestRegressor(random_state=42)
@@ -463,3 +370,100 @@ result_label = tk.Label(root, text="")
 result_label.grid(row=5, column=0, columnspan=2, padx=(10, 10), pady=(10, 0))
 
 root.mainloop()
+
+
+
+def model_evaluation(model, params, multi_output=True):
+    gs = GridSearchCV(model, params, cv=10)
+    if multi_output:
+        chain = RegressorChain(gs)
+        chain.fit(X_train, y_train)
+        y_pred = chain.predict(X_test)
+        test_score = chain.score(X_test, y_test)
+        output_variables = [f'Variable {i+1}' for i in range(y.shape[1])]
+        best_params = [chain.estimators_[i].best_params_ for i in range(y.shape[1])]
+        best_scores = [chain.estimators_[i].best_score_ for i in range(y.shape[1])]
+    else:
+        gs.fit(X_train, y_train)
+        y_pred = gs.predict(X_test)
+        test_score = gs.score(X_test, y_test)
+        output_variables = ['']
+        best_params = [gs.best_params_]
+        best_scores = [gs.best_score_]
+
+    results = pd.DataFrame({
+        'Output Variable': output_variables,
+        'Best parameters': best_params,
+        'Best score': best_scores,
+        'Test set score': [test_score] * len(output_variables),
+        'MAE': [mean_absolute_error(y_test, y_pred)] * len(output_variables),
+        'MSE': [mean_squared_error(y_test, y_pred)] * len(output_variables),
+        'R2 score': [r2_score(y_test, y_pred)] * len(output_variables)
+    })
+
+    return results
+
+
+'''
+# Define the regression models to be trained
+models = [
+    LinearRegression(),
+    Ridge(),
+    Lasso(),
+    ElasticNet(),
+    DecisionTreeRegressor(),
+    RandomForestRegressor(),
+    GradientBoostingRegressor(),
+    AdaBoostRegressor(),
+    MLPRegressor(max_iter=1000),
+    SVR(),
+    KNeighborsRegressor(),
+    GaussianProcessRegressor(),
+    DecisionTreeRegressor(),
+    LassoCV(),
+]
+
+# Define the hyperparameters to be tuned for each model
+params = [
+    {},
+    {'alpha': [0.1, 1, 10]},
+    {'alpha': [0.1, 1, 10]},
+    {'alpha': [0.1, 1, 10], 'l1_ratio': [0.1, 0.5, 0.9]},
+    {'max_depth': [3, 5, 10]},
+    {'n_estimators': [50, 100, 200]},
+    {'learning_rate': [0.01, 0.1, 1], 'n_estimators': [50, 100, 200]},
+    {'learning_rate': [0.01, 0.1, 1], 'n_estimators': [50, 100, 200]},
+    {'hidden_layer_sizes': [(10,), (50,), (100,)]},
+    {'C': [0.1, 1, 10], 'kernel': ['linear', 'rbf']},
+    {'n_neighbors': [3, 5, 10]},
+    {},
+    {'max_depth': [3, 5, 10]},
+    {'eps': [0.001, 0.01, 0.1]},
+]
+model_names = [
+    'LinearRegression()',
+    'Ridge()',
+    'Lasso()',
+    'ElasticNet()',
+    'DecisionTreeRegressor()',
+    'RandomForestRegressor()',
+    'GradientBoostingRegressor()',
+    'AdaBoostRegressor()',
+    'MLPRegressor(max_iter=1000)',
+    'SVR()',
+    'KNeighborsRegressor()',
+    'GaussianProcessRegressor()',
+    'DecisionTreeRegressor()',
+    'LassoCV()'
+    ]
+
+# Train and evaluate each model
+results = []
+for i, model in enumerate(models):
+    print(f"Training {model_names[i]} ({i + 1}/{len(models)})...")
+    results.append(model_evaluation(model, params[i], multi_output=True))
+
+# Concatenate the results of all models into a single DataFrame
+all_results = pd.concat(results, ignore_index=True)
+print(all_results)
+'''
