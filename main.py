@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 from tkinter import ttk
 from joblib import dump
 
-
 from sklearn.model_selection import GridSearchCV, train_test_split, learning_curve
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.ensemble import RandomForestRegressor, StackingRegressor
@@ -24,7 +23,6 @@ from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, AdaBoostRegressor
 from sklearn.neural_network import MLPRegressor
 from sklearn.linear_model import LassoCV
-
 
 from skopt import BayesSearchCV
 from skopt.space import Real, Integer
