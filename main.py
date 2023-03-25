@@ -1,13 +1,13 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
+
 import warnings
 import tkinter as tk
-
+import matplotlib.pyplot as plt
 from tkinter import ttk
 from joblib import dump
 
-from sklearn.model_selection import KFold
+
 from sklearn.model_selection import GridSearchCV, train_test_split, learning_curve
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.ensemble import RandomForestRegressor, StackingRegressor
@@ -18,10 +18,13 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import make_scorer
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.ensemble import VotingRegressor
-from sklearn.multioutput import MultiOutputRegressor
 from sklearn.gaussian_process import GaussianProcessRegressor
-from sklearn.gaussian_process.kernels import RBF, ConstantKernel as C, WhiteKernel
 from sklearn.tree import DecisionTreeRegressor
+from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, AdaBoostRegressor
+from sklearn.neural_network import MLPRegressor
+from sklearn.linear_model import LassoCV
+
 
 from skopt import BayesSearchCV
 from skopt.space import Real, Integer
@@ -34,10 +37,6 @@ try:
     df = pd.read_excel(file_path, sheet_name="sheet1", header=0, usecols="A:F")
 except FileNotFoundError:
     print("File not found. Please check the file path.")
-
-
-print('Hello world')
-
 
 # Take the first three columns as input and the last three columns as output and convert them to numpy arrays
 X = df.iloc[:, 0:3].to_numpy()
@@ -77,6 +76,69 @@ def model_evaluation(model, params, multi_output=True):
     return results
 
 
+# Define the regression models to be trained
+models = [
+    LinearRegression(),
+    Ridge(),
+    Lasso(),
+    ElasticNet(),
+    DecisionTreeRegressor(),
+    RandomForestRegressor(),
+    GradientBoostingRegressor(),
+    AdaBoostRegressor(),
+    MLPRegressor(max_iter=1000),
+    SVR(),
+    KNeighborsRegressor(),
+    GaussianProcessRegressor(),
+    DecisionTreeRegressor(),
+    LassoCV(),
+]
+
+# Define the hyperparameters to be tuned for each model
+params = [
+    {},
+    {'alpha': [0.1, 1, 10]},
+    {'alpha': [0.1, 1, 10]},
+    {'alpha': [0.1, 1, 10], 'l1_ratio': [0.1, 0.5, 0.9]},
+    {'max_depth': [3, 5, 10]},
+    {'n_estimators': [50, 100, 200]},
+    {'learning_rate': [0.01, 0.1, 1], 'n_estimators': [50, 100, 200]},
+    {'learning_rate': [0.01, 0.1, 1], 'n_estimators': [50, 100, 200]},
+    {'hidden_layer_sizes': [(10,), (50,), (100,)]},
+    {'C': [0.1, 1, 10], 'kernel': ['linear', 'rbf']},
+    {'n_neighbors': [3, 5, 10]},
+    {},
+    {'max_depth': [3, 5, 10]},
+    {'eps': [0.001, 0.01, 0.1]},
+]
+model_names = [
+    'LinearRegression()',
+    'Ridge()',
+    'Lasso()',
+    'ElasticNet()',
+    'DecisionTreeRegressor()',
+    'RandomForestRegressor()',
+    'GradientBoostingRegressor()',
+    'AdaBoostRegressor()',
+    'MLPRegressor(max_iter=1000)',
+    'SVR()',
+    'KNeighborsRegressor()',
+    'GaussianProcessRegressor()',
+    'DecisionTreeRegressor()',
+    'LassoCV()'
+    ]
+
+# Train and evaluate each model
+results = []
+for i, model in enumerate(models):
+    print(f"Training {model_names[i]} ({i + 1}/{len(models)})...")
+    results.append(model_evaluation(model, params[i], multi_output=True))
+
+# Concatenate the results of all models into a single DataFrame
+all_results = pd.concat(results, ignore_index=True)
+print(all_results)
+
+
 # Random forest regression model
 rf_reg = RandomForestRegressor(random_state=42)
 rf_params = {'n_estimators': [10, 50, 100], 'max_depth': [5, 7, 9]}
@@ -111,11 +173,6 @@ dt_params = {'max_depth': [3, 5, 10]}
 dt_results = model_evaluation(dt_reg, dt_params)
 print("DecisionTreeRegressor:")
 print(dt_results.to_markdown(index=False))
-
-
-
-
-
 
 
 def model_evaluation_bayes(model, search_space, n_iter=10, multi_output=True, sort_by=None):
@@ -310,11 +367,9 @@ y_pred_normalized = np.zeros_like(y_test)
 for i, model in enumerate(stacking_ensemble_models):
     y_pred_normalized[:, i] = model.predict(X_test)
 
-
 mae = mean_absolute_error(y_test, y_pred_normalized)
 mse = mean_squared_error(y_test, y_pred_normalized)
 r2 = r2_score(y_test, y_pred_normalized)
-
 
 print("Ensemble model results:")
 print(f"Mean Absolute Error: {mae}")
